@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+import TaskInput from './components/TaskInput';
+import TaskList from './components/TaskList';
+import { useDispatch } from 'react-redux';
+import { loadTasks } from './redux/tasksSlice';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Load tasks from localStorage and dispatch to Redux store
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    dispatch(loadTasks(tasks));
+  }, [dispatch]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>To-Do List</h1>
+      <TaskInput />
+      <TaskList />
+      <ToastContainer />
     </div>
   );
-}
+};
 
 export default App;
